@@ -17,6 +17,20 @@ const client = new MongoClient(uri, {
 	},
 });
 
+// MongoDB run script
+async function run() {
+	try {
+		// Client connection with the server
+		await client.connect();
+		// Ping for successful connection confirmation
+		await client.db("admin").command({ ping: 1 });
+		console.log("Pinged. Successfully connected to MongoDB.");
+	} finally {
+		// await client.close();
+	}
+}
+run().catch(console.dir);
+
 // Middlewares
 app.use(express.json());
 app.use(cors());
