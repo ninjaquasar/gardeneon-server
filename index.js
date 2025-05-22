@@ -22,8 +22,21 @@ async function run() {
 	try {
 		// Client connection with the server
 		await client.connect();
-		// Tips collection
-		const tipsCollection = client.db("gardeneon").collection("tips");
+		// Database
+		const database = client.db("gardeneon");
+		// Collections
+		const gardenersCollection = database.collection("gardeners");
+		const tipsCollection = database.collection("tips");
+		// Get gardeners from database
+		app.get("/gardeners", async (req, res) => {
+			const result = await gardenersCollection.find().toArray();
+			res.send(result);
+		});
+		// Get active gardeners from database
+		app.get("/gardeners/active", async (req, res) => {
+			const result = await gardenersCollection.find({ status: "Active" }).toArray();
+			res.send(result);
+		});
 		// Get tips from database
 		app.get("/tips", async (req, res) => {
 			const result = await tipsCollection.find().toArray();
