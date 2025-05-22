@@ -29,18 +29,23 @@ async function run() {
 		const tipsCollection = database.collection("tips");
 		// Get gardeners from database
 		app.get("/gardeners", async (req, res) => {
-			const result = await gardenersCollection.find().toArray();
-			res.send(result);
+			const cursor = await gardenersCollection.find().toArray();
+			res.send(cursor);
 		});
 		// Get active gardeners from database
 		app.get("/gardeners/active", async (req, res) => {
-			const result = await gardenersCollection.find({ status: "Active" }).toArray();
-			res.send(result);
+			const cursor = await gardenersCollection.find({ status: "Active" }).toArray();
+			res.send(cursor);
 		});
 		// Get tips from database
 		app.get("/tips", async (req, res) => {
-			const result = await tipsCollection.find().toArray();
-			res.send(result);
+			const cursor = await tipsCollection.find().toArray();
+			res.send(cursor);
+		});
+		// Get top 6 tips from database
+		app.get("/tips/top-6", async (req, res) => {
+			const cursor = await tipsCollection.find().limit(6).toArray();
+			res.send(cursor);
 		});
 		// Create new tip in database
 		app.post("/tips", async (req, res) => {
