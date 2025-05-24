@@ -52,6 +52,17 @@ async function run() {
 			const cursor = await tipsCollection.find().toArray();
 			res.send(cursor);
 		});
+		// Update a tip
+		app.put("/tips/update/:id", async (req, res) => {
+			const id = req.params.id;
+			const query = { _id: new ObjectId(id) };
+			const updatedTip = req.body;
+			const updatedDoc = {
+				$set: updatedTip,
+			};
+			const result = await tipsCollection.updateOne(query, updatedDoc);
+			res.send(result);
+		});
 		// Get top 6 tips
 		app.get("/tips/top-6", async (req, res) => {
 			const cursor = await tipsCollection.find().limit(6).toArray();
