@@ -47,9 +47,11 @@ async function run() {
 			const cursor = await testimonialsCollection.find().toArray();
 			res.send(cursor);
 		});
-		// Get all tips
+		// Get all tips or tips based on Difficulty field
 		app.get("/tips", async (req, res) => {
-			const cursor = await tipsCollection.find().toArray();
+			const { difficulty } = req.query;
+			const query = difficulty ? { difficulty } : {};
+			const cursor = await tipsCollection.find(query).toArray();
 			res.send(cursor);
 		});
 		// Update a tip
